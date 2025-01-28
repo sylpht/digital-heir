@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Heir — Ваш цифровой наследник</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        header {
+            background: #2A4365;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        /* Секции */
+        section {
+            padding: 60px 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Как это работает */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .step-number {
+            background: #2A4365;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        /* Цены */
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .price-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 2.5em;
+            color: #2A4365;
+            margin: 20px 0;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            background: #2A4365;
+            color: white!important;
+            padding: 15px 40px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Футер */
+        footer {
+            background: #2A4365;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Digital Heir</h1>
+            <p>Безопасная передача цифровых активов вашим наследникам</p>
+            <a href="#start" class="btn">Начать сейчас</a>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="card">
+            <h2>Почему это важно?</h2>
+            <p>Каждый человек оставляет после себя:</p>
+            <ul>
+                <li>🔑 20+ аккаунтов в соцсетях и банках</li>
+                <li>💾 100+ Гб личных данных</li>
+                <li>💰 Криптовалюту и NFT</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="container" id="how">
+        <h2>Как это работает?</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Регистрация</h3>
+                <p>Создайте аккаунт и укажите цифровые активы</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Шифрование</h3>
+                <p>Данные защищаются военным уровнем шифрования</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Передача</h3>
+                <p>Доступ автоматически открывается наследникам</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="pricing">
+        <h2>Тарифы</h2>
+        <div class="pricing">
+            <div class="price-card">
+                <h3>Базовый</h3>
+                <div class="price">5 000₽</div>
+                <ul>
+                    <li>До 10 аккаунтов</li>
+                    <li>Поддержка 24/7</li>
+                    <li>1 наследник</li>
+                </ul>
+                <a href="#start" class="btn">Выбрать</a>
+            </div>
+            <div class="price-card">
+                <h3>Премиум</h3>
+                <div class="price">15 000₽</div>
+                <ul>
+                    <li>Неограниченные аккаунты</li>
+                    <li>NFT и крипто-кошельки</li>
+                    <li>До 5 наследников</li>
+                </ul>
+                <a href="#start" class="btn">Выбрать</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="start">
+        <div class="card">
+            <h2>Начните сейчас</h2>
+            <p>Оставьте email для доступа к бета-тесту:</p>
+            <form style="margin-top: 20px;">
+                <input type="email" placeholder="Ваш email" style="padding: 10px; width: 300px; max-width: 100%;">
+                <button type="submit" class="btn">Отправить</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Digital Heir. Все права защищены.</p>
+            <p>Контакты: support@digitalheir.ru</p>
+        </div>
+    </footer>
+</body>
+</html>
