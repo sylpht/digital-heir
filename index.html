@@ -64,6 +64,10 @@
             transition: color 0.3s;
         }
 
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
         /* Герой секция */
         .hero {
             padding: 160px 0 100px;
@@ -76,6 +80,22 @@
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #005BB5;
         }
 
         /* Функции */
@@ -137,6 +157,31 @@
             background: var(--section-bg);
             padding: 2rem;
             border-radius: 18px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal .auth-form {
+            position: relative;
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal.show {
+            display: flex;
         }
 
         /* Адаптивность */
@@ -238,7 +283,7 @@
         // Логика модальных окон
         function showAuthModal(type) {
             const modal = document.getElementById('authModal');
-            modal.style.display = 'block';
+            modal.classList.add('show');
             if(type === 'register') {
                 document.getElementById('modalTitle').innerText = 'Создать аккаунт';
             } else {
@@ -258,7 +303,7 @@
             e.preventDefault();
             // Здесь должна быть логика AJAX-запроса
             document.querySelector('.dashboard').style.display = 'grid';
-            document.getElementById('authModal').style.display = 'none';
+            document.getElementById('authModal').classList.remove('show');
         });
     </script>
 </body>
