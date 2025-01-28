@@ -3,214 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Heir — Ваш цифровой наследник</title>
+    <title>Digital Heir — Управление цифровым наследием</title>
     <style>
+        :root {
+            --primary-color: #1A1A1A;
+            --accent-color: #007AFF;
+            --text-color: #1D1D1F;
+            --bg-color: #FFFFFF;
+            --section-bg: #F5F5F7;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
+            background: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
-            color: #333;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 2rem;
         }
 
-        /* Шапка */
-        header {
-            background: #2A4365;
-            color: white;
-            padding: 80px 0;
-            text-align: center;
+        /* Навигация */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        /* Секции */
-        section {
-            padding: 60px 0;
-        }
-
-        .card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 20px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* Как это работает */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .step {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .step-number {
-            background: #2A4365;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .nav-content {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
         }
 
-        /* Цены */
-        .pricing {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
-        .price-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .price {
-            font-size: 2.5em;
-            color: #2A4365;
-            margin: 20px 0;
-        }
-
-        /* Кнопки */
-        .btn {
-            display: inline-block;
-            background: #2A4365;
-            color: white!important;
-            padding: 15px 40px;
-            border-radius: 25px;
+        .nav-links a {
+            margin-left: 2rem;
             text-decoration: none;
-            transition: 0.3s;
-            margin-top: 20px;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        /* Футер */
-        footer {
-            background: #2A4365;
-            color: white;
+        /* Герой секция */
+        .hero {
+            padding: 160px 0 100px;
             text-align: center;
-            padding: 30px 0;
-            margin-top: 60px;
         }
 
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Функции */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 18px;
+            background: var(--bg-color);
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Формы */
+        .auth-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--section-bg);
+            border-radius: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        /* Личный кабинет */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .sidebar {
+            background: var(--section-bg);
+            padding: 1.5rem;
+            border-radius: 18px;
+        }
+
+        .main-content {
+            background: var(--section-bg);
+            padding: 2rem;
+            border-radius: 18px;
+        }
+
+        /* Адаптивность */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Digital Heir</h1>
-            <p>Безопасная передача цифровых активов вашим наследникам</p>
-            <a href="#start" class="btn">Начать сейчас</a>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">DigitalHeir</div>
+            <div class="nav-links">
+                <a href="#features">Возможности</a>
+                <a href="#security">Безопасность</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#" class="btn" onclick="showAuthModal('login')">Войти</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <section class="container">
-        <div class="card">
-            <h2>Почему это важно?</h2>
-            <p>Каждый человек оставляет после себя:</p>
+    <section class="hero">
+        <div class="container">
+            <h1>Ваше цифровое бессмертие</h1>
+            <p>Защитите и передайте цифровые активы следующему поколению</p>
+            <div style="margin-top: 3rem;">
+                <button class="btn" onclick="showAuthModal('register')">Начать бесплатно</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно авторизации -->
+    <div id="authModal" class="modal">
+        <div class="auth-form">
+            <h2 id="modalTitle">Создать аккаунт</h2>
+            <form id="authForm">
+                <div class="input-group">
+                    <input type="text" placeholder="Полное имя" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Пароль" required>
+                </div>
+                <button type="submit" class="btn">Продолжить</button>
+            </form>
+            <div style="margin-top: 1rem; text-align: center;">
+                <a href="#" onclick="toggleAuthForm()">Уже есть аккаунт? Войти</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="container" id="features">
+        <div class="features">
+            <div class="feature-card">
+                <h3>🛡️ Защита активов</h3>
+                <p>Военное шифрование и многофакторная аутентификация</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤖 Автоматизация</h3>
+                <p>Умные триггеры для автоматической передачи данных</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌐 Мультиплатформа</h3>
+                <p>Поддержка 500+ сервисов и блокчейн-сетей</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Личный кабинет (после авторизации) -->
+    <section class="dashboard container" style="display: none;">
+        <div class="sidebar">
+            <h3>Меню</h3>
             <ul>
-                <li>🔑 20+ аккаунтов в соцсетях и банках</li>
-                <li>💾 100+ Гб личных данных</li>
-                <li>💰 Криптовалюту и NFT</li>
+                <li>Мои активы</li>
+                <li>Наследники</li>
+                <li>Настройки</li>
+                <li>Безопасность</li>
             </ul>
         </div>
-    </section>
-
-    <section class="container" id="how">
-        <h2>Как это работает?</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Регистрация</h3>
-                <p>Создайте аккаунт и укажите цифровые активы</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Шифрование</h3>
-                <p>Данные защищаются военным уровнем шифрования</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Передача</h3>
-                <p>Доступ автоматически открывается наследникам</p>
+        <div class="main-content">
+            <h2>Добавить новый актив</h2>
+            <div class="asset-types">
+                <div class="asset-card">🔑 Соцсети</div>
+                <div class="asset-card">💰 Криптовалюта</div>
+                <div class="asset-card">📁 Облачные хранилища</div>
             </div>
         </div>
     </section>
 
-    <section class="container" id="pricing">
-        <h2>Тарифы</h2>
-        <div class="pricing">
-            <div class="price-card">
-                <h3>Базовый</h3>
-                <div class="price">5 000₽</div>
-                <ul>
-                    <li>До 10 аккаунтов</li>
-                    <li>Поддержка 24/7</li>
-                    <li>1 наследник</li>
-                </ul>
-                <a href="#start" class="btn">Выбрать</a>
-            </div>
-            <div class="price-card">
-                <h3>Премиум</h3>
-                <div class="price">15 000₽</div>
-                <ul>
-                    <li>Неограниченные аккаунты</li>
-                    <li>NFT и крипто-кошельки</li>
-                    <li>До 5 наследников</li>
-                </ul>
-                <a href="#start" class="btn">Выбрать</a>
-            </div>
-        </div>
-    </section>
+    <script>
+        // Логика модальных окон
+        function showAuthModal(type) {
+            const modal = document.getElementById('authModal');
+            modal.style.display = 'block';
+            if(type === 'register') {
+                document.getElementById('modalTitle').innerText = 'Создать аккаунт';
+            } else {
+                document.getElementById('modalTitle').innerText = 'Войти в систему';
+            }
+        }
 
-    <section class="container" id="start">
-        <div class="card">
-            <h2>Начните сейчас</h2>
-            <p>Оставьте email для доступа к бета-тесту:</p>
-            <form style="margin-top: 20px;">
-                <input type="email" placeholder="Ваш email" style="padding: 10px; width: 300px; max-width: 100%;">
-                <button type="submit" class="btn">Отправить</button>
-            </form>
-        </div>
-    </section>
+        function toggleAuthForm() {
+            const title = document.getElementById('modalTitle');
+            title.innerText = title.innerText.includes('Войти') 
+                ? 'Создать аккаунт' 
+                : 'Войти в систему';
+        }
 
-    <footer>
-        <div class="container">
-            <p>© 2024 Digital Heir. Все права защищены.</p>
-            <p>Контакты: support@digitalheir.ru</p>
-        </div>
-    </footer>
+        // Обработка форм
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Здесь должна быть логика AJAX-запроса
+            document.querySelector('.dashboard').style.display = 'grid';
+            document.getElementById('authModal').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
