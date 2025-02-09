@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Обработка формы с AJAX запросом
+    // Обработка формы с AJAX запросом и создание личного кабинета
     document.getElementById('authForm').addEventListener('submit', function(e) {
         e.preventDefault();
         fetch('/api/auth', {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                createDashboard(data.user);
                 document.querySelector('.dashboard').style.display = 'grid';
                 document.getElementById('authModal').classList.remove('show');
             } else {
@@ -52,4 +53,28 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
         });
     });
-});
+
+    // Функция для создания личного кабинета
+    function createDashboard(user) {
+        const dashboard = document.createElement('div');
+        dashboard.className = 'dashboard';
+        
+        const sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = `
+            <h3>Меню</h3>
+            <ul>
+                <li><a href="#">Профиль</a></li>
+                <li><a href="#">Настройки</a></li>
+                <li><a href="#">Выход</a></li>
+            </ul>
+        `;
+        
+        const mainContent = document.createElement('div');
+        mainContent.className = 'main-content';
+        mainContent.innerHTML = `
+            <h2>Добро пожаловать, ${user.name}</h2>
+            <p>Email: ${user.email}</p>
+        `;
+        
+        dashboard.appendChild(sidebar);
