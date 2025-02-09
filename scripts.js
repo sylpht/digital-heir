@@ -56,25 +56,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для создания личного кабинета
     function createDashboard(user) {
-        const dashboard = document.createElement('div');
-        dashboard.className = 'dashboard';
-        
-        const sidebar = document.createElement('div');
-        sidebar.className = 'sidebar';
-        sidebar.innerHTML = `
-            <h3>Меню</h3>
-            <ul>
-                <li><a href="#">Профиль</a></li>
-                <li><a href="#">Настройки</a></li>
-                <li><a href="#">Выход</a></li>
-            </ul>
-        `;
-        
-        const mainContent = document.createElement('div');
-        mainContent.className = 'main-content';
-        mainContent.innerHTML = `
-            <h2>Добро пожаловать, ${user.name}</h2>
-            <p>Email: ${user.email}</p>
-        `;
-        
-        dashboard.appendChild(sidebar);
+        const
