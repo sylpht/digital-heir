@@ -5,6 +5,8 @@
     --bg-color: #FFFFFF;
     --section-bg: #F5F5F7;
     --pale-pink: #FFB6C1;
+    --shadow-light: rgba(255, 255, 255, 0.7);
+    --shadow-dark: rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -75,31 +77,38 @@ body {
     background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: fadeInUp 1s ease-out;
+    animation: text-glow 2s ease-in-out infinite;
 }
 
-/* Анимация шифрования текста */
-@keyframes encrypt {
+/* Анимация текста героя */
+@keyframes text-glow {
     0% {
-        content: 'Ваше цифровое бессмертие';
-    }
-    25% {
-        content: 'В4ш3 ц1фр0в0е б3ссм3рт1е';
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                     0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 15px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(0, 123, 255, 0.7),
+                     0 0 25px rgba(0, 123, 255, 0.7),
+                     0 0 30px rgba(0, 123, 255, 0.7),
+                     0 0 35px rgba(0, 123, 255, 0.7);
     }
     50% {
-        content: 'В@ш3 ц1фр0в0е бес@м3рт1е';
-    }
-    75% {
-        content: 'Ваше ц1фр0вое бессм3рти3';
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+                     0 0 20px rgba(255, 255, 255, 0.7),
+                     0 0 30px rgba(255, 255, 255, 0.7),
+                     0 0 40px rgba(0, 123, 255, 1),
+                     0 0 50px rgba(0, 123, 255, 1),
+                     0 0 60px rgba(0, 123, 255, 1),
+                     0 0 70px rgba(0, 123, 255, 1);
     }
     100% {
-        content: 'Ваше цифровое бессмертие';
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                     0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 15px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(0, 123, 255, 0.7),
+                     0 0 25px rgba(0, 123, 255, 0.7),
+                     0 0 30px rgba(0, 123, 255, 0.7),
+                     0 0 35px rgba(0, 123, 255, 0.7);
     }
-}
-
-.hero h1::after {
-    content: 'Ваше цифровое бессмертие';
-    animation: encrypt 3s infinite;
 }
 
 .btn {
@@ -111,14 +120,22 @@ body {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.3s;
 }
 
 .btn:hover {
     background: #005BB5;
+    transform: translateY(-3px);
 }
 
-/* Возможности */
+/* Neumorphism */
+.neumorphic {
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 9px 9px 16px var(--shadow-dark), 
+                -9px -9px 16px var(--shadow-light);
+}
+
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -128,9 +145,6 @@ body {
 
 .feature-card {
     padding: 2rem;
-    border-radius: 18px;
-    background: var(--bg-color);
-    box-shadow: 0 5px 30px rgba(0,0,0,0.05);
     transition: transform 0.3s;
 }
 
@@ -138,7 +152,6 @@ body {
     transform: translateY(-5px);
 }
 
-/* Формы */
 .auth-form {
     max-width: 400px;
     margin: 2rem auto;
@@ -159,7 +172,6 @@ input {
     font-size: 1rem;
 }
 
-/* Личный кабинет */
 .dashboard {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -179,7 +191,6 @@ input {
     border-radius: 18px;
 }
 
-/* Модальное окно */
 .modal {
     display: none;
     position: fixed;
@@ -202,9 +213,14 @@ input {
 
 .modal.show {
     display: flex;
+    animation: fadeIn 0.5s;
 }
 
-/* Тарифы */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .pricing-table {
     display: flex;
     justify-content: center;
@@ -214,9 +230,6 @@ input {
 
 .pricing-card {
     padding: 2rem;
-    border-radius: 18px;
-    background: var(--bg-color);
-    box-shadow: 0 5px 30px rgba(0,0,0,0.05);
     text-align: center;
 }
 
@@ -232,7 +245,6 @@ input {
     margin-top: 1rem;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 2.5rem;
