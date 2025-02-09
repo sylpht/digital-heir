@@ -7,6 +7,7 @@
     <meta name="keywords" content="digital inheritance, digital assets, security">
     <title>Цифровой наследник</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
@@ -54,15 +55,18 @@
             <h2>Возможности</h2>
             <div class="features">
                 <div class="feature-card neumorphic">
-                    <h3>🛡️ Защита активов</h3>
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Защита активов</h3>
                     <p>Военное шифрование и многофакторная аутентификация</p>
                 </div>
                 <div class="feature-card neumorphic">
-                    <h3>🤖 Автоматизация</h3>
+                    <i class="fas fa-robot"></i>
+                    <h3>Автоматизация</h3>
                     <p>Умные триггеры для автоматической передачи данных</p>
                 </div>
                 <div class="feature-card neumorphic">
-                    <h3>🌐 Мультиплатформа</h3>
+                    <i class="fas fa-globe"></i>
+                    <h3>Мультиплатформа</h3>
                     <p>Поддержка 500+ сервисов и блокчейн-сетей</p>
                 </div>
             </div>
@@ -89,6 +93,15 @@
         </div>
     </section>
 
+    <section class="progress-section">
+        <div class="container">
+            <h2>Прогресс</h2>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </section>
+
     <div id="authModal" class="modal">
         <div class="auth-form neumorphic">
             <h2 id="modalTitle">Создать аккаунт</h2>
@@ -108,6 +121,12 @@
                 <a href="#" onclick="toggleAuthForm()">Уже есть аккаунт? Войти</a>
             </div>
         </div>
+    </div>
+
+    <div class="tab-bar">
+        <a href="#features"><i class="fas fa-cogs"></i></a>
+        <a href="#pricing"><i class="fas fa-tags"></i></a>
+        <a href="#progress"><i class="fas fa-tasks"></i></a>
     </div>
 
     <script src="scripts.js"></script>
