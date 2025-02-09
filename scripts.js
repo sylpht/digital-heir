@@ -39,7 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: e.target[2].value
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сети');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 createDashboard(data.user);
@@ -50,10 +55,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            alert('Ошибка: ' + error.message);
         });
     });
 
     // Функция для создания личного кабинета
     function createDashboard(user) {
-        const
+        const dashboard = document.querySelector('.dashboard');
+        dashboard.innerHTML = `
+            <div class="sidebar">
+                <h3>Добро пожаловать, ${user.name}!</h3>
+                <p>Ваш email: ${user.email}</p>
+            </div>
+            <div class="main-content">
+                <h2>Ваши активы</h2>
+                <p>Здесь будут отображаться ваши цифровые активы.</p>
+            </div>
+        `;
+    }
+
+    // Обработчик для гамбургер-меню
+    document.getElementById('hamburger').addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    });
+});
