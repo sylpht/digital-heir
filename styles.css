@@ -64,6 +64,32 @@ body {
     color: var(--accent-color);
 }
 
+/* Гамбургер-меню */
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: var(--bg-color);
+        width: 100%;
+        text-align: center;
+    }
+    .nav-links.active {
+        display: flex;
+    }
+}
+
 /* Герой секция */
 .hero {
     padding: 160px 0 100px;
@@ -82,32 +108,11 @@ body {
 
 /* Анимация текста героя */
 @keyframes text-glow {
-    0% {
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
-                     0 0 10px rgba(255, 255, 255, 0.5),
-                     0 0 15px rgba(255, 255, 255, 0.5),
-                     0 0 20px rgba(0, 123, 255, 0.7),
-                     0 0 25px rgba(0, 123, 255, 0.7),
-                     0 0 30px rgba(0, 123, 255, 0.7),
-                     0 0 35px rgba(0, 123, 255, 0.7);
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
     50% {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
-                     0 0 20px rgba(255, 255, 255, 0.7),
-                     0 0 30px rgba(255, 255, 255, 0.7),
-                     0 0 40px rgba(0, 123, 255, 1),
-                     0 0 50px rgba(0, 123, 255, 1),
-                     0 0 60px rgba(0, 123, 255, 1),
-                     0 0 70px rgba(0, 123, 255, 1);
-    }
-    100% {
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
-                     0 0 10px rgba(255, 255, 255, 0.5),
-                     0 0 15px rgba(255, 255, 255, 0.5),
-                     0 0 20px rgba(0, 123, 255, 0.7),
-                     0 0 25px rgba(0, 123, 255, 0.7),
-                     0 0 30px rgba(0, 123, 255, 0.7),
-                     0 0 35px rgba(0, 123, 255, 0.7);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
     }
 }
 
@@ -258,6 +263,7 @@ input {
     border-radius: 10px;
     overflow: hidden;
     margin: 1rem 0;
+    min-width: 200px;
 }
 
 .progress {
