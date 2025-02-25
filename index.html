@@ -1,250 +1,1448 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Цифровой наследник</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Legacy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.min.js"></script>
     <style>
-        /* Полный CSS */
         :root {
-            --primary: #1D1D1F;
-            --accent: #007AFF;
-            --bg: #FFFFFF;
-            --section-bg: #F5F5F7;
-            --text: #1D1D1F;
-            --border: #D2D2D7;
+            --dark: #01060F;
+            --light-blue: #A6B1D1;
+            --beige: #DCD7D0;
+            --accent: #4A90E2;
+            --gold: #D4AF37;
+            --muted-green: #66CC66;
         }
-
         body {
-            font-family: -apple-system, system-ui, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--beige);
+            overflow-x: hidden;
+            transition: all 0.3s ease;
         }
-
-        .container {
+        body.gold-theme {
+            --accent: var(--gold);
+        }
+        /* Прелоадер */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .lock-key {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        .lock {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 50px;
+            color: #000;
+            text-shadow: 0 0 10px rgba(166, 177, 209, 0.5);
+            animation: lockMove 2s infinite ease-in-out;
+        }
+        .key {
+            position: absolute;
+            top: 25px;
+            left: 50px;
+            font-size: 40px;
+            color: #000;
+            text-shadow: 0 0 10px rgba(166, 177, 209, 0.5);
+            animation: keyMove 2s infinite ease-in-out;
+        }
+        #preloader-text {
+            font-size: 1rem;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(166, 177, 209, 0.5);
+        }
+        @keyframes lockMove {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes keyMove {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(-20px) rotate(-45deg); }
+        }
+        header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--dark);
+            overflow: hidden;
+            padding: 0;
+        }
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 1rem;
+            width: 100%;
+        }
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin: 0 0 1.5rem;
+            color: var(--beige);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px var(--light-blue);
+            transition: all 0.5s ease;
+            cursor: default;
+        }
+        h1.glow {
+            animation: glow 2s infinite alternate ease-in-out;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px var(--light-blue); }
+            100% { text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent), 0 0 50px var(--accent); }
+        }
+        header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--beige);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        .btn-hero {
+            background: linear-gradient(45deg, var(--light-blue), var(--accent));
+            color: var(--dark);
+            padding: 1rem 3rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            margin-top: 1.5rem;
+            display: inline-block;
+        }
+        .btn-hero:hover {
+            background: linear-gradient(45deg, var(--accent), var(--beige));
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.6);
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(1, 6, 15, 0.95), rgba(1, 6, 15, 0.85));
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(166, 177, 209, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+        }
+        nav .container {
+            display: flex;
+            justify-content: space-around;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
         }
-
-        /* Гайд */
-        .guide {
-            padding: 4rem 0;
-            background: var(--section-bg);
-        }
-
-        .guide-step {
-            background: white;
+        .nav-link {
+            color: var(--beige) !important;
+            font-weight: 500;
+            margin: 0 1.5rem;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
-            margin: 2rem 0;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        .step-header {
-            padding: 1.5rem;
+        .nav-link:hover {
+            color: var(--accent) !important;
+            background: rgba(74, 144, 226, 0.2);
+            text-shadow: 0 0 10px var(--accent);
+        }
+        .scroll-progress {
+            position: fixed;
+            top: calc(1rem + 2rem + 1px);
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(166, 177, 209, 0.1);
+            z-index: 999;
+        }
+        .scroll-progress-bar {
+            height: 100%;
+            width: 0;
             background: var(--accent);
-            color: white;
-            cursor: pointer;
+            opacity: 0.3;
+            transition: width 0.3s ease;
         }
-
-        .step-content {
+        .section {
+            padding: 5rem 0;
+            position: relative;
+            background: var(--dark);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideUpFade 0.8s ease forwards;
+        }
+        @keyframes slideUpFade {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--light-blue);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(166, 177, 209, 0.4);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(15px);
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: var(--beige);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+        }
+        .card p {
+            color: var(--beige);
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        .calculator {
+            background: rgba(255, 255, 255, 0.2);
             padding: 2rem;
-            display: none;
-            border-top: 1px solid var(--border);
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
         }
-
-        .step-active .step-content {
+        .calculator .form-label {
+            font-size: 0.9rem;
+            color: var(--light-blue);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .calculator .form-label .tooltip {
+            display: none;
+            position: absolute;
+            top: -2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(74, 144, 226, 0.9);
+            color: var(--beige);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .calculator .form-label:hover .tooltip {
             display: block;
         }
-
-        /* Эксперты */
-        .experts {
-            padding: 4rem 0;
-        }
-
-        .expert-card {
-            background: white;
-            border-radius: 18px;
-            padding: 2rem;
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .expert-quote {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            quotes: "“" "”";
-            position: relative;
-        }
-
-        .expert-quote:before {
-            content: open-quote;
-            font-size: 4rem;
+        .calculator .form-label .info-icon {
+            font-size: 0.8rem;
             color: var(--accent);
-            position: absolute;
-            left: -1rem;
-            top: -1.5rem;
-            opacity: 0.3;
+            cursor: help;
         }
-
-        /* Калькулятор */
-        .calculator {
-            padding: 4rem 0;
-            background: var(--section-bg);
-        }
-
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .calculator-input {
-            margin-bottom: 1.5rem;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
+        .calculator .form-control {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--light-blue);
+            color: var(--beige);
             border-radius: 12px;
-            font-size: 16px;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
         }
-
-        #totalValue {
-            font-size: 2.5rem;
+        .calculator .form-control:focus,
+        .calculator .form-control.warning {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+        .calculator .form-control.warning {
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        .calculator-result {
+            font-size: 1rem;
             color: var(--accent);
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .calculator-result.visible {
+            opacity: 1;
+        }
+        #costChart {
+            max-width: 350px;
+            margin: 1rem auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .smart-suggestion {
+            font-size: 0.8rem;
+            color: var(--light-blue);
+            text-align: center;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .smart-suggestion.visible {
+            opacity: 1;
+        }
+        .demo-tech {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .demo-tech h3 {
+            font-size: 1.6rem;
+            color: var(--light-blue);
+            margin-bottom: 1rem;
+        }
+        .demo-progress {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem auto;
+            position: relative;
+        }
+        .demo-progress-bar {
+            width: 0;
+            height: 100%;
+            background: var(--muted-green);
+            transition: width 2s ease-in-out;
+            box-shadow: 0 0 10px var(--muted-green);
+        }
+        .demo-progress-text {
+            position: absolute;
+            top: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: var(--muted-green);
+            text-shadow: 0 0 5px var(--muted-green);
+            font-family: monospace;
+        }
+        .blockchain-visual {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .block {
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 204, 102, 0.2);
+            border: 1px solid var(--muted-green);
+            margin: 0 1rem;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--muted-green);
+            font-family: monospace;
+            text-shadow: 0 0 5px var(--muted-green);
+            animation: flicker 0.2s infinite alternate;
+        }
+        .block::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -1.5rem;
+            width: 1.5rem;
+            height: 2px;
+            background: var(--muted-green);
+            opacity: 0.7;
+            animation: connect 0.5s infinite alternate;
+        }
+        .block:last-child::after {
+            display: none;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.8; box-shadow: 0 0 5px var(--muted-green); }
+            100% { opacity: 1; box-shadow: 0 0 10px var(--muted-green); }
+        }
+        @keyframes connect {
+            0% { transform: scaleX(0); opacity: 0.5; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+        .try-it {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 700px;
+        }
+        .try-it h3 {
+            font-size: 1.6rem;
+            color: var(--light-blue);
+            margin-bottom: 1rem;
+        }
+        .try-it .file-upload {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, var(--light-blue), var(--accent));
+            padding: 0.8rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            color: var(--dark);
             font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .try-it .file-upload:hover {
+            background: linear-gradient(45deg, var(--accent), var(--beige));
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.6);
+        }
+        .try-it .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .try-it-result {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .try-it-result.visible {
+            opacity: 1;
+        }
+        .try-it-result i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .stats {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 900px;
+        }
+        .stats h3 {
+            font-size: 1.6rem;
+            color: var(--light-blue);
+            margin-bottom: 1rem;
+        }
+        .stats .count {
+            font-size: 2rem;
+            color: var(--accent);
+            margin: 0 1rem;
+            display: inline-block;
+        }
+        .quote-card {
+            background: rgba(166, 177, 209, 0.35);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            font-style: italic;
+            color: var(--beige);
+            max-width: 700px;
+            margin: 1.5rem auto;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        .quote-card p {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        .quote-card cite {
+            font-size: 1rem;
+            opacity: 0.9;
+            color: var(--accent);
+        }
+        footer {
+            background: var(--dark);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--beige);
+            opacity: 0.8;
+            border-top: 1px solid rgba(166, 177, 209, 0.4);
+            position: relative;
+        }
+        .premium-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1rem auto;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .premium-section h3 {
+            font-size: 1.4rem;
+            color: var(--light-blue);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 0.8rem;
+        }
+        .premium-section p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--beige);
+            opacity: 0.9;
+        }
+        .icon {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            padding: 0 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--beige);
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+        .extended-info {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .extended-info p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--beige);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: var(--light-blue);
+        }
+        .settings-switcher {
+            position: fixed;
+            top: calc(1rem + 2rem + 1rem); /* Под nav с отступом 1rem */
+            right: 1rem;
+            z-index: 1001;
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 0.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+        .settings-switcher button {
+            background: none;
+            border: none;
+            color: var(--beige);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            opacity: 0.7;
+        }
+        .settings-switcher button.active {
+            background: linear-gradient(45deg, var(--light-blue), var(--accent));
+            color: var(--dark);
+            opacity: 1;
+        }
+        .settings-switcher button:hover:not(.active) {
+            color: var(--accent);
+            opacity: 1;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--light-blue), var(--accent));
+            color: var(--dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.2);
+            transition: all 0.3s ease, opacity 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        .back-to-top:hover {
+            background: linear-gradient(135deg, var(--accent), var(--beige));
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.6);
+        }
+        /* Чат-бот */
+        .chat-bot {
+            position: fixed;
+            bottom: 2rem;
+            right: calc(2rem + 60px); /* Рядом с Back to Top */
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .chat-bot button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(166, 177, 209, 0.3);
+            color: var(--beige);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .chat-bot button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+        .chat-window {
+            display: none;
+            position: absolute;
+            bottom: 4rem;
+            right: 0;
+            width: 300px;
+            max-height: 400px;
+            background: rgba(1, 6, 15, 0.95);
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            color: var(--beige);
+            font-size: 0.9rem;
+            overflow-y: auto;
+        }
+        .chat-window.visible {
+            display: block;
+        }
+        .chat-message {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .chat-message.user {
+            background: rgba(74, 144, 226, 0.2);
+            text-align: right;
+        }
+        .chat-window input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--light-blue);
+            border-radius: 10px;
+            padding: 0.5rem;
+            color: var(--beige);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .chat-window button {
+            background: linear-gradient(45deg, var(--light-blue), var(--accent));
+            border: none;
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .chat-window button:hover {
+            background: linear-gradient(45deg, var(--accent), var(--beige));
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            header p, .intro-text p, .extended-info p { font-size: 0.9rem; }
+            .btn-hero { padding: 0.8rem 2rem; font-size: 0.9rem; }
+            .section { padding: 3rem 0; }
+            h2 { font-size: 2rem; }
+            .card h3 { font-size: 1.4rem; }
+            .card p { font-size: 0.8rem; }
+            .calculator, .premium-section, .quote-card, .extended-info { padding: 1rem; max-width: 100%; }
+            .try-it .file-upload { padding: 0.6rem 1.5rem; font-size: 0.8rem; }
+            .block { width: 40px; height: 40px; font-size: 0.6rem; margin: 0 0.8rem; }
+            .block::after { right: -1rem; width: 1rem; }
+            .settings-switcher { top: calc(1rem + 2rem + 0.5rem); right: 0.5rem; flex-direction: row; padding: 0.1rem; }
+            .settings-switcher button { padding: 0.3rem 0.6rem; font-size: 0.7rem; }
+            .back-to-top { width: 40px; height: 40px; font-size: 1.2rem; }
+            .chat-bot { right: calc(1rem + 50px); }
+            .chat-bot button { width: 40px; height: 40px; font-size: 1.2rem; }
+            .chat-window { width: 240px; max-height: 300px; }
+            .lock-key { width: 60px; height: 60px; }
+            .lock { font-size: 40px; top: 10px; left: 10px; }
+            .key { font-size: 30px; top: 20px; left: 40px; }
+            #preloader-text { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
-
-<!-- Интерактивный гайд -->
-<section class="guide">
-    <div class="container">
-        <h2>Полное руководство по защите цифровых активов (1200 слов)</h2>
-        
-        <div class="guide-step">
-            <div class="step-header" onclick="toggleStep(1)">
-                <h3>Шаг 1: Инвентаризация активов</h3>
-            </div>
-            <div class="step-content">
-                <p><strong>Что считать активом:</strong></p>
-                <ul>
-                    <li>Криптовалютные кошельки (пример: 37% пользователей теряют доступ к кошелькам после смерти владельца)</li>
-                    <li>Электронные платежные системы (PayPal, Яндекс.Деньги)</li>
-                    <li>Социальные сети с монетизацией (YouTube, Instagram)</li>
-                    <li>Облачные хранилища с важными данными</li>
-                    <li>Домены и хостинги</li>
-                </ul>
-                <div class="case-study">
-                    <h4>Кейс: Джон МакАфи</h4>
-                    <p>Основатель McAfee Associates потерял доступ к $4M в криптовалюте из-за отсутствия плана наследования</p>
-                </div>
-            </div>
+    <!-- Прелоадер -->
+    <div id="preloader">
+        <div class="lock-key">
+            <i class="fas fa-lock lock"></i>
+            <i class="fas fa-key key"></i>
         </div>
-
-        <!-- 5 дополнительных шагов аналогичной детализации -->
+        <span id="preloader-text">digital legacy</span>
     </div>
-</section>
 
-<!-- Мнения экспертов -->
-<section class="experts">
+    <!-- Навигация -->
+    <nav>
+        <div class="container">
+            <a class="nav-link" href="#about">About</a>
+            <a class="nav-link" href="#features">Features</a>
+            <a class="nav-link" href="#calculator">Calculator</a>
+            <a class="nav-link" href="#pricing">Pricing</a>
+            <a class="nav-link" href="#why-us">Why Us</a>
+            <a class="nav-link" href="#quotes">Inspiration</a>
+            <a class="nav-link" href="#contact">Contact</a>
+        </div>
+    </nav>
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Переключатель настроек (тема и язык) -->
+    <div class="settings-switcher">
+        <button id="theme-dark" class="active" onclick="switchTheme('dark')">Dark</button>
+        <button id="theme-gold" onclick="switchTheme('gold')">Gold</button>
+        <button id="lang-en" class="active" onclick="switchLang('en')">ENG</button>
+        <button id="lang-ru" onclick="switchLang('ru')">RU</button>
+    </div>
+
+    <!-- Шапка с частицами -->
+    <header>
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <h1 id="title">Digital Legacy</h1>
+            <div class="intro-text">
+                <p id="header-text">In a world where your digital presence is as vital as your physical one, Digital Legacy ensures that your photos, messages, accounts, and crypto assets—your life’s story—remain secure and pass to those you cherish, effortlessly and with dignity.</p>
+            </div>
+            <a href="#calculator" class="btn-hero">Secure Your Legacy</a>
+        </div>
+    </header>
+
+    <!-- Продолжение информации после шапки -->
+    <div class="extended-info">
+        <p>Today, millions lose access to their loved ones’ digital lives due to bureaucratic hurdles and technical limitations. Digital Legacy is the solution—ensuring your digital existence is preserved and handed over with respect to your wishes.</p>
+        <p>With cutting-edge AES-256 encryption, blockchain-powered smart contracts, and global legal integration, we offer unmatched security and control. Your legacy isn’t just data—it’s your history, your wealth, your memories.</p>
+    </div>
+
+    <!-- Контент -->
     <div class="container">
-        <h2>Экспертные мнения</h2>
-
-        <div class="expert-card">
-            <blockquote class="expert-quote">
-                "Цифровые активы требуют нового подхода к наследованию. В 2023 году более 60% судебных дел 
-                о наследстве включали споры о доступе к электронным аккаунтам"
-                <footer style="margin-top: 1rem;">
-                    - Эмили Роуз, юрист Digital Legacy Association (<a href="https://digitallegacy.org" target="_blank">источник</a>)
-                </footer>
-            </blockquote>
+        <!-- Демо технологий -->
+        <div class="demo-tech">
+            <h3 id="demo-title">How It Works</h3>
+            <p id="demo-text">Watch your data being secured on the blockchain:</p>
+            <div class="demo-progress">
+                <div class="demo-progress-bar" id="demoProgress"></div>
+                <span class="demo-progress-text" id="demoText">Initializing...</span>
+            </div>
+            <div class="blockchain-visual">
+                <div class="block" style="--i: 0;" id="block1">0xA1</div>
+                <div class="block" style="--i: 1;" id="block2">0xB2</div>
+                <div class="block" style="--i: 2;" id="block3">0xC3</div>
+                <div class="block" style="--i: 3;" id="block4">0xD4</div>
+            </div>
         </div>
 
-        <div class="expert-card">
-            <blockquote class="expert-quote">
-                "Использование мультисигнатурных кошельков и смарт-контрактов - единственный надежный способ 
-                гарантировать выполнение условий цифрового завещания"
-                <footer style="margin-top: 1rem;">
-                    - Д-р Михаэль Заутер, блокчейн-эксперт MIT (<a href="https://blockchain.mit.edu" target="_blank">исследование</a>)
-                </footer>
-            </blockquote>
+        <!-- Секция "Try It" -->
+        <div class="try-it">
+            <h3 id="try-title">Try It Now</h3>
+            <p id="try-text">Upload a file to simulate encryption:</p>
+            <label class="file-upload">
+                <i class="fas fa-upload"></i> Add File
+                <input type="file" id="tryFile" accept=".txt,.pdf,.jpg">
+            </label>
+            <div class="try-it-result" id="tryResult"></div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats">
+            <h3 id="stats-title">Our Impact</h3>
+            <span class="count" id="assetsCount">0</span> Protected Assets
+            <span class="count" id="usersCount">0</span> Users
+        </div>
+
+        <section class="section" id="about">
+            <h2>About</h2>
+            <p class="text-center" style="max-width: 900px; margin: 0 auto 2rem;" id="about-text1">Digital Legacy is more than a service—it’s a visionary ecosystem that ensures your digital existence endures. From cherished memories to vast crypto fortunes, we protect and pass on what matters most.</p>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-stream"></i></span> <span id="about-title">Your Digital Footprint, Immortalized</span></h3>
+                <p id="about-text2">In today’s world, we live as much online as offline. Your photos, messages, financial accounts, and social profiles aren’t just data—they’re your legacy. Digital Legacy safeguards this invaluable story, ensuring it’s never lost to bureaucracy or technical oblivion.</p>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <h2>Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4"><div class="card"><h3>Elite Onboarding</h3><p id="feature-text1">Secure access with two-factor authentication in moments.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Fortified Vault</h3><p id="feature-text2">AES-256 encryption and global redundancy.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Absolute Control</h3><p id="feature-text3">Define your heirs and conditions with precision.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Blockchain Precision</h3><p id="feature-text4">Smart contracts for seamless, tamper-proof transfers.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Legal Mastery</h3><p id="feature-text5">Worldwide notary and compliance integration.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Eternal Safeguards</h3><p id="feature-text6">Multi-tier backups for total peace of mind.</p></div></div>
+            </div>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-shield-alt"></i></span> <span id="feature-title">Uncompromising Security</span></h3>
+                <p id="feature-text7">Your every file, message, and memory is encrypted with AES-256, stored in a fortified cloud with regular backups, and accessible only under your explicit command—protected from any breach.</p>
+            </div>
+        </section>
+
+        <section class="section" id="calculator">
+            <h2>Calculator</h2>
+            <div class="calculator">
+                <p class="text-center mb-4" id="calc-text">Estimate your digital legacy cost in real-time.</p>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="accounts" class="form-label">
+                            Accounts & Social Media
+                            <span class="info-icon"><i class="fas fa-info-circle"></i></span>
+                            <span class="tooltip">e.g., Twitter, Facebook ($10 per account)</span>
+                        </label>
+                        <input type="number" class="form-control" id="accounts" min="0" value="0" placeholder="e.g., 5">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="crypto" class="form-label">
+                            Crypto Wallets
+                            <span class="info-icon"><i class="fas fa-info-circle"></i></span>
+                            <span class="tooltip">e.g., Bitcoin, Ethereum ($50 per wallet)</span>
+                        </label>
+                        <input type="number" class="form-control" id="crypto" min="0" value="0" placeholder="e.g., 2">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="storage" class="form-label">
+                            Storage (GB)
+                            <span class="info-icon"><i class="fas fa-info-circle"></i></span>
+                            <span class="tooltip">e.g., Cloud Photos, Docs ($2 per GB)</span>
+                        </label>
+                        <input type="number" class="form-control" id="storage" min="0" value="0" placeholder="e.g., 100">
+                    </div>
+                </div>
+                <div class="calculator-result" id="result">Cost: $0<br><small>Base: $250 + Accounts: $0 + Crypto: $0 + Storage: $0</small><br><small>Estimated Yearly Cost: $0</small></div>
+                <canvas id="costChart" style="max-width: 350px; margin: 1rem auto;"></canvas>
+                <div class="smart-suggestion" id="suggestion"></div>
+            </div>
+        </section>
+
+        <section class="section" id="pricing">
+            <h2>Pricing</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-5 mb-4"><div class="card text-center"><h3>Essential</h3><p id="price-text1">$250 + $50/year<br>Up to 50 GB</p><a href="#contact" class="btn-hero">Secure Now</a></div></div>
+                <div class="col-md-5 mb-4"><div class="card text-center"><h3>Elite</h3><p id="price-text2">$500 + $100/year<br>Up to 500 GB, Legal Priority</p><a href="#contact" class="btn-hero">Secure Now</a></div></div>
+            </div>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-dna"></i></span> <span id="price-title">A Legacy with Dignity</span></h3>
+                <p id="price-text3">Choose your heirs, set personalized conditions—be it notary verification or medical certification—and trust us to deliver your digital assets with respect and precision.</p>
+            </div>
+        </section>
+
+        <section class="section" id="why-us">
+            <h2>Why Us</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4"><div class="card"><h3>Global Reach</h3><p id="why-text1">Your assets, safeguarded worldwide.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Visionary Tech</h3><p id="why-text2">Unmatched blockchain and encryption.</p></div></div>
+                <div class="col-md-4 mb-4"><div class="card"><h3>Immortal Value</h3><p id="why-text3">Preserve your story for centuries.</p></div></div>
+            </div>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-cogs"></i></span> <span id="why-title">Your Command Center</span></h3>
+                <p id="why-text4">Manage your digital will through an intuitive dashboard—add assets, update heirs, and receive status reports, all within a sleek, secure interface designed for ultimate control.</p>
+            </div>
+        </section>
+
+        <section class="section" id="quotes">
+            <h2>Inspiration</h2>
+            <div class="quote-card">
+                <p id="quote-text1">"Your data is your story. Don’t let it vanish into the digital void."</p>
+                <cite>— Edward Snowden, Privacy Advocate</cite>
+            </div>
+            <div class="quote-card">
+                <p id="quote-text2">"Legacy isn’t just land or gold—it’s what we leave in the digital realm."</p>
+                <cite>— Steve Jobs, Technology Visionary</cite>
+            </div>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-heart"></i></span> <span id="quote-title">Beyond a Service—A Promise</span></h3>
+                <p id="quote-text3">Imagine your life’s photos, messages, and achievements preserved forever. Digital Legacy isn’t just about storage—it’s about ensuring your memory and wealth endure, delivered with dignity to those who matter most.</p>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <h2>Contact</h2>
+            <form class="calculator mx-auto" style="max-width: 700px;">
+                <p class="text-center mb-4" id="contact-text1">Priority response within 24 hours.</p>
+                <input type="text" class="form-control mb-4" placeholder="Your Name" required>
+                <input type="email" class="form-control mb-4" placeholder="Your Email" required>
+                <textarea class="form-control mb-4" placeholder="Your Message" rows="4" required></textarea>
+                <button type="submit" class="btn btn-calculate">Send</button>
+            </form>
+            <p class="text-center mt-4 contact-info">
+                <i class="fab fa-telegram-plane"></i> <a href="https://t.me/lex.moris" target="_blank">@lex.moris</a> | 
+                <i class="fas fa-envelope"></i> <a href="mailto:Lex.moris@ilcoud.com">Lex.moris@ilcoud.com</a> | 
+                <i class="fas fa-phone"></i> +1 (XXX) XXX-XXXX
+            </p>
+            <div class="premium-section">
+                <h3><span class="icon"><i class="fas fa-link"></i></span> <span id="contact-title">Seamless Integration</span></h3>
+                <p id="contact-text2">From notary partnerships to multi-platform asset support, we’ve built a system that’s effortless yet powerful—connecting your digital world with precision and care.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Кнопка "Back to Top" -->
+    <div class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></div>
+
+    <!-- Чат-бот -->
+    <div class="chat-bot">
+        <button id="chatToggle"><i class="fas fa-comment-dots"></i></button>
+        <div class="chat-window" id="chatWindow">
+            <div id="chatMessages"></div>
+            <input type="text" id="chatInput" placeholder="Ask me anything...">
+            <button id="chatSend">Send</button>
         </div>
     </div>
-</section>
 
-<!-- Калькулятор -->
-<section class="calculator">
-    <div class="container">
-        <div class="calculator-grid">
-            <div>
-                <h2>Калькулятор активов</h2>
-                <div class="calculator-input">
-                    <label>Криптовалюты (USD)</label>
-                    <input type="number" id="crypto" value="0" oninput="calculateTotal()">
-                </div>
-                <div class="calculator-input">
-                    <label>Электронные деньги</label>
-                    <input type="number" id="emoney" value="0" oninput="calculateTotal()">
-                </div>
-                <div class="calculator-input">
-                    <label>NFT коллекции</label>
-                    <input type="number" id="nft" value="0" oninput="calculateTotal()">
-                </div>
-                <div class="calculator-input">
-                    <label>Домены/Сайты</label>
-                    <input type="number" id="domains" value="0" oninput="calculateTotal()">
-                </div>
-            </div>
-            <div>
-                <h3>Общая стоимость</h3>
-                <div id="totalValue">$0</div>
-                <div id="chart"></div>
-            </div>
-        </div>
-    </div>
-</section>
+    <footer>
+        <p id="footer-text">© 2025 Digital Legacy. Your gateway to digital immortality.</p>
+    </footer>
 
-<script>
-    // Гайд
-    function toggleStep(step) {
-        document.querySelectorAll('.guide-step')[step-1].classList.toggle('step-active');
-    }
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Прелоадер
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 2000);
+        });
 
-    // Калькулятор
-    function calculateTotal() {
-        const values = {
-            crypto: parseFloat(document.getElementById('crypto').value) || 0,
-            emoney: parseFloat(document.getElementById('emoney').value) || 0,
-            nft: parseFloat(document.getElementById('nft').value) || 0,
-            domains: parseFloat(document.getElementById('domains').value) || 0
+        // Частицы (статический фон)
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: ['#A6B1D1', '#4A90E2'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.8, random: true },
+                size: { value: 4, random: true },
+                line_linked: { enable: true, distance: 200, color: '#A6B1D1', opacity: 0.15, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: true }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+                modes: { repulse: { distance: 150, duration: 0.4 }, push: { particles_nb: 3 } }
+            },
+            retina_detect: true
+        });
+
+        // Шифрование заголовка
+        const title = document.getElementById('title');
+        const originalText = title.textContent;
+        const cipherChars = '!@#$%^&*()_+-=[]{}|;:,.<>?0123456789';
+        const specialMessage = "We Await You!";
+
+        function encryptText() {
+            let encrypted = '';
+            const isSpecial = Math.random() < 0.1;
+            if (isSpecial) {
+                encrypted = specialMessage;
+                title.textContent = encrypted;
+                title.classList.add('glow');
+                clearInterval(encryptInterval);
+            } else {
+                encrypted = originalText.split('').map(char => {
+                    return Math.random() < 0.7 ? cipherChars[Math.floor(Math.random() * cipherChars.length)] : char;
+                }).join('');
+                title.textContent = encrypted;
+            }
+        }
+
+        function decryptText() {
+            const currentText = title.textContent;
+            if (currentText === specialMessage) {
+                title.textContent = originalText;
+                title.classList.remove('glow');
+            } else {
+                let steps = 10;
+                let step = 0;
+                const interval = setInterval(() => {
+                    if (step >= steps) {
+                        title.textContent = originalText;
+                        clearInterval(interval);
+                        return;
+                    }
+                    let decrypted = '';
+                    for (let i = 0; i < originalText.length; i++) {
+                        const progress = step / steps;
+                        const currentChar = currentText[i];
+                        const targetChar = originalText[i];
+                        decrypted += (Math.random() > progress) ? currentChar : targetChar;
+                    }
+                    title.textContent = decrypted;
+                    step++;
+                }, 50);
+            }
+        }
+
+        let encryptInterval;
+        title.addEventListener('mouseover', () => {
+            encryptInterval = setInterval(encryptText, 150);
+        });
+
+        title.addEventListener('mouseout', () => {
+            clearInterval(encryptInterval);
+            decryptText();
+        });
+
+        // Анимация появления и переключение настроек
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+            elements.forEach(el => observer.observe(el));
+
+            // Анимация демо технологий
+            const progressBar = document.getElementById('demoProgress');
+            const progressText = document.getElementById('demoText');
+            const blocks = [document.getElementById('block1'), document.getElementById('block2'), document.getElementById('block3'), document.getElementById('block4')];
+            const stages = ['Initializing...', 'Encrypting with AES-256...', 'Storing on Blockchain...', 'Secured!'];
+            const blockTexts = ['0xA1', '0xB2', '0xC3', '0xD4'];
+            let stageIndex = 0;
+            setInterval(() => {
+                progressBar.style.width = '0%';
+                progressText.textContent = stages[stageIndex];
+                blocks.forEach((block, i) => {
+                    block.textContent = blockTexts[i];
+                    if (stageIndex === 2) {
+                        let encryptedText = blockTexts[i].split('').map(char => Math.random() < 0.5 ? cipherChars[Math.floor(Math.random() * cipherChars.length)] : char).join('');
+                        block.textContent = encryptedText;
+                        setTimeout(() => block.textContent = blockTexts[i], 1000);
+                    }
+                });
+                stageIndex = (stageIndex + 1) % stages.length;
+                setTimeout(() => {
+                    progressBar.style.width = '100%';
+                }, 100);
+            }, 2200);
+
+            // Счётчики статистики
+            const statsObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    new CountUp('assetsCount', 10000, { duration: 2 }).start();
+                    new CountUp('usersCount', 5000, { duration: 2 }).start();
+                    statsObserver.disconnect();
+                }
+            }, { threshold: 0.5 });
+            statsObserver.observe(document.querySelector('.stats'));
+
+            // Кнопка "Back to Top"
+            const backToTop = document.getElementById('backToTop');
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Индикатор прокрутки
+            const scrollProgressBar = document.getElementById('scrollProgressBar');
+            window.addEventListener('scroll', () => {
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgressBar.style.width = `${scrollPercentage}%`;
+
+                // Управление видимостью кнопки "Вверх"
+                if (scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 50) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            // Умный чат-бот
+            const chatToggle = document.getElementById('chatToggle');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+
+            chatToggle.addEventListener('click', () => {
+                chatWindow.classList.toggle('visible');
+            });
+
+            function addMessage(text, isUser = false) {
+                const message = document.createElement('div');
+                message.classList.add('chat-message');
+                if (isUser) message.classList.add('user');
+                message.textContent = text;
+                chatMessages.appendChild(message);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function getBotResponse(question) {
+                question = question.toLowerCase();
+                if (question.includes('cost') || question.includes('price')) {
+                    return "Our pricing starts at $250 + $50/year for Essential (up to 50 GB) and $500 + $100/year for Elite (up to 500 GB). Check the Calculator section for a custom estimate!";
+                } else if (question.includes('how') || question.includes('work')) {
+                    return "Digital Legacy uses AES-256 encryption and blockchain smart contracts to secure your digital assets. Check the 'How It Works' section for a demo!";
+                } else if (question.includes('contact')) {
+                    return "You can reach us via Telegram (@lex.moris), email (Lex.moris@ilcoud.com), or phone (+1 XXX XXX-XXXX). See the Contact section!";
+                } else {
+                    return "I'm here to help! Could you please clarify your question? I can assist with pricing, features, or contacts.";
+                }
+            }
+
+            chatSend.addEventListener('click', () => {
+                const question = chatInput.value.trim();
+                if (question) {
+                    addMessage(question, true);
+                    setTimeout(() => {
+                        const response = getBotResponse(question);
+                        addMessage(response);
+                    }, 1000);
+                    chatInput.value = '';
+                }
+            });
+
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    chatSend.click();
+                }
+            });
+        });
+
+        // Улучшенный калькулятор
+        let chart;
+        function calculateCost() {
+            const accounts = parseInt(document.getElementById('accounts').value) || 0;
+            const crypto = parseInt(document.getElementById('crypto').value) || 0;
+            const storage = parseInt(document.getElementById('storage').value) || 0;
+            const baseCost = 250;
+            const accountCost = accounts * 10;
+            const cryptoCost = crypto * 50;
+            const storageCost = storage * 2;
+            const total = baseCost + accountCost + cryptoCost + storageCost;
+            const plan = total > 500 ? 'Elite' : 'Essential';
+            let yearlyCost = total > 0 ? (plan === 'Elite' ? 100 : 50) : 0;
+            let overLimitCost = 0;
+
+            if (plan === 'Essential' && storage > 50) {
+                overLimitCost = (storage - 50) * 2;
+                yearlyCost += overLimitCost;
+            } else if (plan === 'Elite' && storage > 500) {
+                overLimitCost = (storage - 500) * 2;
+                yearlyCost += overLimitCost;
+            }
+
+            document.getElementById('accounts').classList.toggle('warning', accounts > 50);
+            document.getElementById('crypto').classList.toggle('warning', crypto > 20);
+            document.getElementById('storage').classList.toggle('warning', storage > (plan === 'Elite' ? 500 : 50));
+
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                Cost: $${total.toLocaleString()}<br>
+                <small>Base: $250 + Accounts: $${accountCost.toLocaleString()} + Crypto: $${cryptoCost.toLocaleString()} + Storage: $${storageCost.toLocaleString()}</small><br>
+                <small>Plan: ${plan} | Estimated Yearly Cost: $${yearlyCost.toLocaleString()}${overLimitCost > 0 ? ` (Includes $${overLimitCost} for over-limit storage)` : ''}</small>
+            `;
+            result.classList.add('visible');
+
+            const suggestion = document.getElementById('suggestion');
+            if (total > 1000) {
+                suggestion.textContent = "Consider our Elite plan for larger assets!";
+            } else if (accounts > 10 && crypto === 0) {
+                suggestion.textContent = "Add crypto wallets for comprehensive protection.";
+            } else if (storage > 500) {
+                suggestion.textContent = "High storage? Our Elite plan offers up to 500 GB.";
+            } else if (total > 0 && total <= 250) {
+                suggestion.textContent = "Perfect fit for our Essential plan!";
+            } else if (overLimitCost > 0) {
+                suggestion.textContent = `Over-limit storage detected! Additional $${overLimitCost} per year.`;
+            } else {
+                suggestion.textContent = "";
+            }
+            suggestion.classList.toggle('visible', suggestion.textContent !== "");
+
+            if (chart) chart.destroy();
+            chart = new Chart(document.getElementById('costChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Base', 'Accounts', 'Crypto', 'Storage'],
+                    datasets: [{
+                        data: [baseCost, accountCost, cryptoCost, storageCost],
+                        backgroundColor: ['#A6B1D1', '#4A90E2', '#DCD7D0', '#6BB9F0'],
+                        borderColor: ['#01060F', '#01060F', '#01060F', '#01060F'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                color: '#DCD7D0', 
+                                font: { size: 12, family: 'Inter', weight: 'bold' },
+                                padding: 15,
+                                boxWidth: 20
+                            } 
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(1, 6, 15, 0.9)',
+                            titleFont: { size: 14, family: 'Inter' },
+                            bodyFont: { size: 12, family: 'Inter' },
+                            callbacks: {
+                                label: (context) => `${context.label}: $${context.raw}`
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true
+                    }
+                }
+            });
+        }
+
+        ['accounts', 'crypto', 'storage'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateCost);
+        });
+
+        // Try It
+        const tryFile = document.getElementById('tryFile');
+        tryFile.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const result = document.getElementById('tryResult');
+            if (file) {
+                const fakeHash = Array(32).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+                result.innerHTML = `<i class="fas fa-lock"></i> Encrypting ${file.name}... Hash: ${fakeHash}`;
+                result.classList.add('visible');
+                setTimeout(() => {
+                    result.innerHTML = `<i class="fas fa-check-circle"></i> Encrypted! Size: ${(file.size / 1024).toFixed(2)} KB`;
+                }, 1000);
+                setTimeout(() => {
+                    result.innerHTML = `<i class="fas fa-shield-alt"></i> Secured on Blockchain!`;
+                }, 2000);
+                setTimeout(() => {
+                    result.classList.remove('visible');
+                    e.target.value = '';
+                }, 3500);
+            }
+        });
+
+        // Переключатель темы
+        function switchTheme(theme) {
+            document.getElementById('theme-dark').classList.toggle('active', theme === 'dark');
+            document.getElementById('theme-gold').classList.toggle('active', theme === 'gold');
+            document.body.classList.toggle('gold-theme', theme === 'gold');
+        }
+
+        // Переключатель языка
+        const translations = {
+            en: {
+                'header-text': "In a world where your digital presence is as vital as your physical one, Digital Legacy ensures that your photos, messages, accounts, and crypto assets—your life’s story—remain secure and pass to those you cherish, effortlessly and with dignity.",
+                'demo-title': "How It Works",
+                'demo-text': "Watch your data being secured on the blockchain:",
+                'try-title': "Try It Now",
+                'try-text': "Upload a file to simulate encryption:",
+                'stats-title': "Our Impact",
+                'about-text1': "Digital Legacy is more than a service—it’s a visionary ecosystem that ensures your digital existence endures. From cherished memories to vast crypto fortunes, we protect and pass on what matters most.",
+                'about-title': "Your Digital Footprint, Immortalized",
+                'about-text2': "In today’s world, we live as much online as offline. Your photos, messages, financial accounts, and social profiles aren’t just data—they’re your legacy. Digital Legacy safeguards this invaluable story, ensuring it’s never lost to bureaucracy or technical oblivion.",
+                'feature-text1': "Secure access with two-factor authentication in moments.",
+                'feature-text2': "AES-256 encryption and global redundancy.",
+                'feature-text3': "Define your heirs and conditions with precision.",
+                'feature-text4': "Smart contracts for seamless, tamper-proof transfers.",
+                'feature-text5': "Worldwide notary and compliance integration.",
+                'feature-text6': "Multi-tier backups for total peace of mind.",
+                'feature-title': "Uncompromising Security",
+                'feature-text7': "Your every file, message, and memory is encrypted with AES-256, stored in a fortified cloud with regular backups, and accessible only under your explicit command—protected from any breach.",
+                'calc-text': "Estimate your digital legacy cost in real-time.",
+                'price-text1': "$250 + $50/year<br>Up to 50 GB",
+                'price-text2': "$500 + $100/year<br>Up to 500 GB, Legal Priority",
+                'price-title': "A Legacy with Dignity",
+                'price-text3': "Choose your heirs, set personalized conditions—be it notary verification or medical certification—and trust us to deliver your digital assets with respect and precision.",
+                'why-text1': "Your assets, safeguarded worldwide.",
+                'why-text2': "Unmatched blockchain and encryption.",
+                'why-text3': "Preserve your story for centuries.",
+                'why-title': "Your Command Center",
+                'why-text4': "Manage your digital will through an intuitive dashboard—add assets, update heirs, and receive status reports, all within a sleek, secure interface designed for ultimate control.",
+                'quote-text1': '"Your data is your story. Don’t let it vanish into the digital void."',
+                'quote-text2': '"Legacy isn’t just land or gold—it’s what we leave in the digital realm."',
+                'quote-title': "Beyond a Service—A Promise",
+                'quote-text3': "Imagine your life’s photos, messages, and achievements preserved forever. Digital Legacy isn’t just about storage—it’s about ensuring your memory and wealth endure, delivered with dignity to those who matter most.",
+                'contact-text1': "Priority response within 24 hours.",
+                'contact-title': "Seamless Integration",
+                'contact-text2': "From notary partnerships to multi-platform asset support, we’ve built a system that’s effortless yet powerful—connecting your digital world with precision and care.",
+                'footer-text': "© 2025 Digital Legacy. Your gateway to digital immortality."
+            },
+            ru: {
+                'header-text': "В мире, где ваше цифровое присутствие так же важно, как физическое, Digital Legacy обеспечивает сохранность ваших фото, сообщений, аккаунтов и криптоактивов — истории вашей жизни — и передачу их тем, кого вы цените, легко и с достоинством.",
+                'demo-title': "Как это работает",
+                'demo-text': "Посмотрите, как ваши данные защищаются на блокчейне:",
+                'try-title': "Попробуйте сейчас",
+                'try-text': "Загрузите файл для симуляции шифрования:",
+                'stats-title': "Наше влияние",
+                'about-text1': "Digital Legacy — это больше, чем сервис, это дальновидная экосистема, которая обеспечивает сохранность вашего цифрового существования. От дорогих воспоминаний до огромных криптоактивов, мы защищаем и передаём то, что действительно важно.",
+                'about-title': "Ваш цифровой след навсегда",
+                'about-text2': "В современном мире мы живём онлайн так же, как и оффлайн. Ваши фото, сообщения, финансовые аккаунты и профили в соцсетях — это не просто данные, это ваше наследие. Digital Legacy сохраняет эту бесценную историю, защищая её от бюрократии и технических сбоев.",
+                'feature-text1': "Безопасный доступ с двухфакторной аутентификацией за секунды.",
+                'feature-text2': "Шифрование AES-256 и глобальная избыточность.",
+                'feature-text3': "Определите наследников и условия с точностью.",
+                'feature-text4': "Смарт-контракты для бесшовных и неподдельных передач.",
+                'feature-text5': "Интеграция с нотариусами и законодательством по всему миру.",
+                'feature-text6': "Многоуровневые резервные копии для полного спокойствия.",
+                'feature-title': "Бескомпромиссная безопасность",
+                'feature-text7': "Каждый файл, сообщение и воспоминание зашифрованы с помощью AES-256, хранятся в защищённом облаке с регулярными копиями и доступны только по вашему прямому указанию — защищены от любых утечек.",
+                'calc-text': "Рассчитайте стоимость вашего цифрового наследия в реальном времени.",
+                'price-text1': "$250 + $50/год<br>До 50 ГБ",
+                'price-text2': "$500 + $100/год<br>До 500 ГБ, приоритетная юридическая поддержка",
+                'price-title': "Наследие с достоинством",
+                'price-text3': "Выберите наследников, установите персонализированные условия — будь то нотариальная проверка или медицинское подтверждение — и доверьте нам передать ваши цифровые активы с уважением и точностью.",
+                'why-text1': "Ваши активы защищены по всему миру.",
+                'why-text2': "Непревзойдённые технологии блокчейна и шифрования.",
+                'why-text3': "Сохраните свою историю на века.",
+                'why-title': "Ваш центр управления",
+                'why-text4': "Управляйте цифровым завещанием через интуитивную панель — добавляйте активы, обновляйте наследников и получайте отчёты в элегантном и безопасном интерфейсе, разработанном для полного контроля.",
+                'quote-text1': '"Ваши данные — это ваша история. Не дайте ей исчезнуть в цифровой пустоте."',
+                'quote-text2': '"Наследие — это не только земля или золото, это то, что мы оставляем в цифровом мире."',
+                'quote-title': "Больше, чем сервис — обещание",
+                'quote-text3': "Представьте, что ваши фото, сообщения и достижения сохраняются навсегда. Digital Legacy — это не просто хранение, это гарантия того, что ваша память и богатство сохранятся и будут переданы с достоинством тем, кто вам дорог.",
+                'contact-text1': "Приоритетный ответ в течение 24 часов.",
+                'contact-title': "Бесшовная интеграция",
+                'contact-text2': "От партнёрств с нотариусами до поддержки множества платформ — мы создали систему, которая проста в использовании и мощна, соединяя ваш цифровой мир с точностью и заботой.",
+                'footer-text': "© 2025 Digital Legacy. Ваш путь к цифровому бессмертию."
+            }
         };
 
-        const total = Object.values(values).reduce((a, b) => a + b, 0);
-        document.getElementById('totalValue').textContent = `$${total.toLocaleString()}`;
-        
-        // Обновление графика
-        updateChart(values);
-    }
+        function switchLang(lang) {
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
+            for (const [key, value] of Object.entries(translations[lang])) {
+                const element = document.getElementById(key);
+                if (element) element.innerHTML = value;
+            }
+        }
 
-    // Инициализация графика
-    function updateChart(data) {
-        const chart = document.getElementById('chart');
-        chart.innerHTML = Object.entries(data)
-            .map(([key, value]) => `
-                <div style="margin: 5px 0; padding: 5px; 
-                    background: linear-gradient(90deg, #007AFF ${(value/50000)*100}%, #eee 0%)">
-                    ${key}: $${value}
-                </div>`)
-            .join('');
-    }
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-    calculateTotal(); // Инициализация
-</script>
-
+        // 3D-вращение карточек
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 25;
+                const rotateY = (centerX - x) / 25;
+                card.style.transform = `scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
 </body>
 </html>
